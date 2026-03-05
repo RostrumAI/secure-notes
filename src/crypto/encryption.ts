@@ -19,7 +19,7 @@ export async function hashPassword(password: string): Promise<string> {
 
 export async function verifyPassword(hashedPassword: string, password: string): Promise<boolean> {
   try {
-    return await argon2.verify(hashedPassword, password);
+    return await argon2.verify(password, hashedPassword);
   } catch {
     return false;
   }
@@ -54,7 +54,7 @@ export function encrypt(data: string, key: Uint8Array): string {
 }
 
 export function decrypt(encryptedData: string, key: Uint8Array): string {
-  const ciphertext = Buffer.from(encryptedData, 'base64');
+  const ciphertext = Buffer.from(encryptedData, 'binary');
   const cipherInstance = cipher(key);
   const plaintext = cipherInstance.decrypt(ciphertext);
   return new TextDecoder().decode(plaintext);
